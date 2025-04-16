@@ -1,6 +1,5 @@
 import android.R
 import android.util.Log
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,8 +10,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.foundation.layout.Arrangement
@@ -21,25 +18,94 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.ui.Alignment.Companion.BottomCenter
-import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.*
-import androidx.compose.runtime.Recomposer
 import androidx.compose.ui.res.painterResource
 import coil.compose.AsyncImage
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.ui.res.stringResource
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.toMutableStateList
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import com.test.people.mycomposeapplication.HomeViewModel
 
+@Composable
+fun HomeScreenViewModel12(
+    homeViewModel: HomeViewModel
+) {
+    var counter by homeViewModel.counter
+    Text(
+        text = "Clicks: $counter",
+        modifier = Modifier.clickable(onClick = {counter++ })
+            .padding(top = 80.dp)
+    )
+}
+
+@Composable
+fun HomeScreenLazyColumn11() {
+    Log.d(TAG, "HomeScreen")
+    val list = remember {
+        List(20) { "Item ${it+1}"}.toMutableStateList()
+    }
+    // LazyColumn(modifier = Modifier.padding(top = 80.dp))
+    LazyColumn(
+        verticalArrangement = Arrangement.spacedBy(4.dp),
+        contentPadding = PaddingValues(16.dp),
+        modifier = Modifier
+            .border(width = 2.dp, color = Color.Green)
+    )
+    {
+        items(list) { item ->
+            SomeItem(text = item)
+        }
+    }
+}
 const val TAG = "HomeScreen"
 
+@Composable
+fun HomeScreen() {
+    Log.d(TAG, "HomeScreen")
+    val list = remember {
+        List(20) { "Item ${it+1}"}.toMutableStateList()
+    }
+
+    Column (modifier = Modifier.padding(top = 80.dp)
+        .verticalScroll(rememberScrollState())){
+        TextButton(onClick = {
+            Log.d(TAG, "--- insert ---")
+            list.add(0, "Item ${list.size + 1}")
+        }) {
+            Text(text = "Insert")
+        }
+        list.forEach { value ->
+            key(value) {
+                SomeItem(value)
+            }
+        }
+    }
+}
+
+@Composable
+fun SomeItem(text: String) {
+    Log.d(TAG, "SomeItem $text")
+    Text(
+        text = text, fontSize = 20.sp,
+        modifier = Modifier
+            .fillMaxWidth()
+            .border(width = 1.dp, color = Color.Black)
+            .padding(16.dp)
+    )
+}
 
 @Composable
 fun HomeScreenCheck() {
@@ -144,7 +210,7 @@ fun HomeScreen(list: List<String>) {
 }
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(double: Double) {
     AsyncImage(
         modifier = Modifier.fillMaxSize(),
         model = "https://developer.android.com/images/android-go/next-billion-users_856.png",
