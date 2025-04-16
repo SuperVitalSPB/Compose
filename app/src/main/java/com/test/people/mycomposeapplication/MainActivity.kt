@@ -24,7 +24,7 @@ class MainActivity : ComponentActivity() {
         val text = mutableStateOf("some text")
 
         setContent {
-            HomeScreenViewModel12(HomeViewModel())
+            HomeScreenViewModel12()
             // HomeScreenLazyColumn11()
             // HomeScreen()
             // SomeItem("xxxxxxxxxxxxxxxxxx")

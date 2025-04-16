@@ -37,19 +37,56 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.toMutableStateList
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.runtime.collectAsState
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.test.people.mycomposeapplication.HomeViewModel
 
 @Composable
 fun HomeScreenViewModel12(
-    homeViewModel: HomeViewModel
+    homeViewModel: HomeViewModel = viewModel()
 ) {
-    var counter by homeViewModel.counter
-    Text(
-        text = "Clicks: $counter",
-        modifier = Modifier.clickable(onClick = {counter++ })
-            .padding(top = 80.dp)
+    // val counter by homeViewModel.counter.collectAsState()
+    // val enabled by homeViewModel.enabled.collectAsState()
+    val uiState by homeViewModel.uiState.collectAsState()
+
+    ClickCounter(
+        count = uiState.count, // counter,
+        onCounterClick = homeViewModel::onCounterClick
+    )
+    EnableFeature(
+        enabled = uiState.enabled, // enabled,
+        onEnabledChange = homeViewModel::setEnabled
     )
 }
+
+@Composable
+fun ClickCounter(
+    count: Int,
+    onCounterClick: () -> Unit
+) {
+    Text(
+        text = "Clicks: $count",
+        modifier = Modifier.clickable(onClick = onCounterClick)
+            .padding(top = 80.dp, start = 16.dp)
+    )
+}
+
+@Composable
+fun EnableFeature(
+    enabled: Boolean,
+    onEnabledChange: (Boolean) -> Unit
+) {
+    Row(verticalAlignment = CenterVertically,
+        modifier = Modifier.padding(top = 85.dp)) {
+        Checkbox(checked = enabled, onCheckedChange = onEnabledChange)
+        Text("enable feature")
+    }
+}
+
+data class HomeScreenUiState(
+    val count: Int = 0,
+    val enabled: Boolean = false
+)
 
 @Composable
 fun HomeScreenLazyColumn11() {
@@ -127,7 +164,7 @@ fun HomeScreenCheck() {
 
 @OptIn(ExperimentalStdlibApi::class)
 @Composable
-fun ClickCounter(
+fun ClickCounterxx(
     counterValue: Int,
     onCounterClick: () -> Unit
 ) {
