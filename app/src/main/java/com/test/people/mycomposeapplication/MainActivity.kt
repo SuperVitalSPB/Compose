@@ -6,11 +6,25 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.test.people.mycomposeapplication.ui.theme.MyComposeApplicationTheme
 
 class MainActivity : ComponentActivity() {
@@ -18,13 +32,69 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
+/*
         val counter = mutableStateOf(0)
 
         val checked = mutableStateOf(true)
         val text = mutableStateOf("some text")
+*/
 
         setContent {
-            HomeScreenViewModel12()
+            Column(modifier = Modifier.fillMaxSize()) {
+                val navController = rememberNavController()
+
+                NavHost(
+                    navController = navController,
+                    startDestination = "userList",
+                    modifier = Modifier.weight(1f)
+                ) {
+                    composable("userList") { UserListScreen(
+                        onUser1Click = { navController.navigate("user/1") },
+                        onUser2Click = { navController.navigate("user/2") }
+                    ) }
+                    composable(
+                        route = "user/{id}",
+                        arguments = listOf(navArgument("id") { type = NavType.StringType })
+                    ) {
+                        val userId = it.arguments?.getString("id")
+                        UserScreen(userId)
+                    }
+                }
+
+                Text(
+                    text = "Users",
+                    modifier = Modifier.padding(bottom = 650.dp)
+                        .clickable { navController.navigate("userList") }
+                )
+            }
+
+
+
+/*
+            Column(modifier = Modifier.fillMaxSize()) {
+                var route by remember { mutableStateOf("userList") }
+
+                Box(modifier = Modifier.weight(1f)) {
+                    when (route) {
+                        "userList" -> UserListScreen(
+                            onUser1Click = { route = "user/1" },
+                            onUser2Click = { route = "user/2" }
+                        )
+                        "user/1" -> UserScreen("1")
+                        "user/2" -> UserScreen("2")
+                    }
+                }
+
+                Text(
+                    text = "Users",
+                    modifier = Modifier.clickable { route = "userList" }
+                )
+            }
+*/
+
+
+
+            // HomeScreenViewModel12()
             // HomeScreenLazyColumn11()
             // HomeScreen()
             // SomeItem("xxxxxxxxxxxxxxxxxx")
