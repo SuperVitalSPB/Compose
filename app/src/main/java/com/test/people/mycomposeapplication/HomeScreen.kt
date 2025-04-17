@@ -110,7 +110,7 @@ fun HomeScreenLazyColumn11() {
 const val TAG = "HomeScreen"
 
 @Composable
-fun HomeScreen() {
+fun HomeScreenMain() {
     Log.d(TAG, "HomeScreen")
     val list = remember {
         List(20) { "Item ${it+1}"}.toMutableStateList()

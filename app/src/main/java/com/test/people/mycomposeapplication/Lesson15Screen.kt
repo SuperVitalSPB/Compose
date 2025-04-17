@@ -11,7 +11,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
 
-const val TAG = "Lesson15Screen"
+private const val TAG = "Lesson15Screen"
 
 @Composable
 fun UserListScreen(
