@@ -1,5 +1,9 @@
 import android.R
 import android.util.Log
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -23,6 +27,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.isImeVisible
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.*
 import androidx.compose.ui.res.painterResource
@@ -38,6 +43,7 @@ import androidx.compose.runtime.toMutableStateList
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.draw.alpha
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.test.people.mycomposeapplication.HomeViewModel
 
@@ -79,8 +85,25 @@ fun EnableFeature(
     Row(verticalAlignment = CenterVertically,
         modifier = Modifier.padding(top = 85.dp)) {
         Checkbox(checked = enabled, onCheckedChange = onEnabledChange)
-        Text("enable feature")
+        AnimatedVisibility(visible = enabled) { Text("feature $enabled") }
+        //AnimationExample(enabled)
     }
+}
+
+@Composable
+fun AnimationExample(loading: Boolean) {
+    val alpha: Float by animateFloatAsState(
+        targetValue = if (loading) 1f else 0f,
+        animationSpec = tween(
+            durationMillis = 300,
+            easing = LinearEasing,
+        ),
+        label = "alpha"
+    )
+    Text(
+        text = "feature $loading",
+        modifier = Modifier.alpha(alpha),
+    )
 }
 
 data class HomeScreenUiState(

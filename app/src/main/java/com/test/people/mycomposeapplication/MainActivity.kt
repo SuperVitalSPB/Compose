@@ -1,10 +1,16 @@
 package com.test.people.mycomposeapplication
 
+import HomeScreen
+import HomeScreenLesson22
 import HomeScreenMain
+import HomeScreenViewModel12
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -16,19 +22,28 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
+        setContent {
+            HomeScreenLesson22()
+        }
+
+/*        setContent {
+            HomeScreenMain()
+        }*/
 /*
         val counter = mutableStateOf(0)
 
         val checked = mutableStateOf(true)
         val text = mutableStateOf("some text")
 */
-        setContent {
-            HomeScreenMain()
-        }
-
 /*        setContent {
-            HomeScreen18()
-        }*/
+            HomeScreen(1)
+        }
+*/
+/*
+        setContent {
+            HomeScreenViewModel12()
+        }
+*/
 /*
             Column(modifier = Modifier.fillMaxSize()) {
                 val navController = rememberNavController()
@@ -120,7 +135,7 @@ class MainActivity : ComponentActivity() {
             // HomeScreen()
             // HomeScreen(listOf("one", "two", "three"))
             // HomeScreen(emptyList())
-/*
+/*        setContent {
             MyComposeApplicationTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     Greeting(
@@ -129,8 +144,7 @@ class MainActivity : ComponentActivity() {
                     )
                 }
             }
-*/
-//   }
+        }*/
     }
 }
 
