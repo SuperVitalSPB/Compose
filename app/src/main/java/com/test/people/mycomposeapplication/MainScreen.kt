@@ -51,12 +51,30 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.test.people.mycomposeapplication.ui.theme.MyComposeApplicationTheme
 import kotlinx.coroutines.launch
+
+@Composable
+fun Greeting(name: String, modifier: Modifier = Modifier) {
+    Text(
+        text = "Hello $name!",
+        modifier = modifier
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+fun GreetingPreview() {
+    MyComposeApplicationTheme {
+        Greeting("Android")
+    }
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun showDrawer() {
+fun MainScreen(modifier: Modifier = Modifier) {
     val items = listOf("Home", "Contact", "About")
     val selectedItem = remember { mutableStateOf(items[0]) }
     val drawerState = rememberDrawerState(DrawerValue.Closed)
@@ -66,7 +84,7 @@ fun showDrawer() {
     val showBottomScheet = remember { mutableStateOf(false) }
 
     ModalNavigationDrawer(
-        modifier = Modifier.padding(top = 40.dp),
+        modifier = modifier,
         drawerState = drawerState,
         drawerContent = {
             ModalDrawerSheet(
