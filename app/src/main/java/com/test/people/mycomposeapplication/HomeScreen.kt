@@ -2,6 +2,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -52,7 +53,20 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
+import com.test.people.mycomposeapplication.DrawerItem
 import kotlinx.coroutines.launch
 
 @Composable
-fun HomeScreen(modifier: Modifier = Modifier) {}
+fun HomeScreen(
+    mainItem: DrawerItem,
+    modifier: Modifier = Modifier.fillMaxSize()
+) {
+    Row (verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier.fillMaxSize()){
+        IconButton(
+            onClick = {},
+            modifier = modifier,
+            content = { Text(mainItem.caption) }
+        )
+    }
+}

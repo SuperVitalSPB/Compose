@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">My Compose Application</string>
-
+    <string name="app_name_short">Compose App</string>
+    <string name="dra_item_home">Home</string>
+    <string name="dra_item_contact">Contact</string>
+    <string name="dra_item_about">About</string>
 </resources>

@@ -18,7 +18,15 @@ class MainActivity : ComponentActivity() {
         setContent {
             MyComposeApplicationTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    MainScreen(modifier = Modifier.padding(innerPadding))
+                    MainScreen(
+                        draList = listOf(
+                            DrawerItemHome(getString(R.string.dra_item_home)),
+                            DrawerItemContact(getString(R.string.dra_item_contact)),
+                            DrawerItemAbout(getString(R.string.dra_item_about))
+                        ),
+                        textHome = getString(R.string.app_name_short),
+                        modifier = Modifier.padding(innerPadding)
+                    )
                 }
             }
         }

@@ -1,4 +1,9 @@
+import android.util.Log
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.DrawerValue
@@ -17,16 +22,25 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.test.people.mycomposeapplication.DrawerItem
+import com.test.people.mycomposeapplication.DrawerItemAbout
+import com.test.people.mycomposeapplication.DrawerItemContact
+import com.test.people.mycomposeapplication.DrawerItemHome
 import kotlinx.coroutines.launch
 
+const val DEFAULT_STRING = "---"
+const val TAG = "@Composable:MainScreen"
+
 @Composable
-fun MainScreen(modifier: Modifier = Modifier) {
-    val items = listOf("Home", "Contact", "About")
-    val selectedItem = remember { mutableStateOf(items[0]) }
+fun MainScreen(
+    draList: List<DrawerItem>,
+    textHome: String,
+    modifier: Modifier = Modifier) {
+    val selectedItem = remember { mutableStateOf(draList[0]) }
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
-    val textHome = remember { mutableStateOf(items[0]) }
 
     ModalNavigationDrawer(
         modifier = modifier,
@@ -36,16 +50,16 @@ fun MainScreen(modifier: Modifier = Modifier) {
                 drawerContainerColor = Color.DarkGray,
                 drawerContentColor =  Color.LightGray
             ) {
-                items.forEach { item ->
+                draList.forEach { item ->
                     NavigationDrawerItem(
-                        label= { Text(item, fontSize = 22.sp) },
-                        selected = selectedItem.value==item,
+                        label= { Text(item.caption, fontSize = 22.sp) },
+                        selected = selectedItem.value == item,
                         onClick = {
                             scope.launch { drawerState.close() }
                             selectedItem.value = item
                         },
                         colors = NavigationDrawerItemDefaults.colors(
-                            selectedContainerColor = Color.Transparent,
+                            selectedContainerColor = Color.LightGray,
                             unselectedContainerColor = Color.Transparent,
                             selectedTextColor = Color.White,
                             unselectedTextColor = Color.LightGray
@@ -57,11 +71,23 @@ fun MainScreen(modifier: Modifier = Modifier) {
         content={
             Row{
                 IconButton(onClick = {scope.launch {drawerState.open()}},
-                    content = { Icon(Icons.Filled.Menu, "Меню") }
+                    content = { Icon(Icons.Filled.Menu, DEFAULT_STRING) }
                 )
-                Text(text = textHome.value,
+                Text(
+                    text = "$textHome:${selectedItem.value.caption}",
                     fontSize = 28.sp,
-                    modifier = Modifier.align ( Alignment.CenterVertically ),)
+                    modifier = Modifier.align(Alignment.CenterVertically),
+                )
+            }
+            Column  (modifier = Modifier
+                .padding(top = 50.dp)
+                .fillMaxSize()){
+                when (selectedItem.value)
+                {
+                    is DrawerItemAbout -> AboutScreen(selectedItem.value)
+                    is DrawerItemContact -> ContactScreen(selectedItem.value)
+                    is DrawerItemHome -> HomeScreen(selectedItem.value)
+                }
             }
         }
     )
