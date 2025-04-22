@@ -1,6 +1,4 @@
-package com.test.people.mycomposeapplication
-
-import android.content.Context
+package com.test.people.mycomposeapplication.model
 
 sealed class DrawerItem(val caption: String)
 

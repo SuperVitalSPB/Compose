@@ -1,5 +1,3 @@
-import android.util.Log
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -24,10 +22,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.test.people.mycomposeapplication.DrawerItem
-import com.test.people.mycomposeapplication.DrawerItemAbout
-import com.test.people.mycomposeapplication.DrawerItemContact
-import com.test.people.mycomposeapplication.DrawerItemHome
+import com.test.people.mycomposeapplication.model.DrawerItem
+import com.test.people.mycomposeapplication.model.DrawerItemAbout
+import com.test.people.mycomposeapplication.model.DrawerItemContact
+import com.test.people.mycomposeapplication.model.DrawerItemHome
 import kotlinx.coroutines.launch
 
 const val DEFAULT_STRING = "---"
@@ -38,6 +36,7 @@ fun MainScreen(
     draList: List<DrawerItem>,
     textHome: String,
     modifier: Modifier = Modifier) {
+
     val selectedItem = remember { mutableStateOf(draList[0]) }
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()

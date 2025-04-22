@@ -1,4 +1,4 @@
-package com.test.people.mycomposeapplication
+package com.test.people.mycomposeapplication.main
 
 import androidx.lifecycle.ViewModel
 
